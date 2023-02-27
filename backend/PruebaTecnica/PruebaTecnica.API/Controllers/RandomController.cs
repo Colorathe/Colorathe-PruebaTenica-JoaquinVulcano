@@ -7,8 +7,11 @@ namespace PruebaTecnica.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+
     public class RandomController : ControllerBase
     {
+         readonly RouletteGameContext _context;
+
         [HttpGet("number")]
         public IActionResult GetRandomNumber()
         {
@@ -29,7 +32,7 @@ namespace PruebaTecnica.API.Controllers
         [HttpPost("save")]
         public async Task<IActionResult> SaveUserAmount(User user)
         {
-            using (var context = new RouletteGameContext(Configuration.GetConnectionString("DefaultConnection")))
+            using (var context = _context)
             {
                 var existingUser = await context.Users.FirstOrDefaultAsync(u => u.Name.Equals(user.Name, StringComparison.OrdinalIgnoreCase));
 
